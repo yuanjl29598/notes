@@ -8,4 +8,7 @@
 
     <!--记事本-->
     <string name="title_write_note">写出你的故事</string>
+    <string name="string_write_note_title">写出你故事的标题</string>
+    <string name="string_write_note_content">写入你的故事内容</string>
+    <string name="string_save_note">保存</string>
 </resources>

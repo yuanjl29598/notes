@@ -3,7 +3,6 @@ package com.zzj.notes.widget.view;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.zzj.notes.R;
@@ -19,9 +18,7 @@ public class WriteNoteActivity extends NoteBaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.id_write_note_toolbar);
-        toolbar.setTitle(getString(R.string.title_write_note));
-        setSupportActionBar(toolbar);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.id_write_fab);
         fab.setOnClickListener(new View.OnClickListener() {
