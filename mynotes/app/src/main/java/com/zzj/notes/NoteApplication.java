@@ -11,7 +11,7 @@ import com.zzj.notes.utils.NoteDataUtil;
 public class NoteApplication extends Application {
     private static NoteApplication noteApplication;
 
-    public NoteApplication getNoteApplication() {
+    public static NoteApplication getNoteApplication() {
         return noteApplication;
     }
 

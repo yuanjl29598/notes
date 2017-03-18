@@ -4,10 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.zzj.notes.model.NoteModel;
 import com.zzj.notes.utils.annotation.Table;
 import com.zzj.notes.utils.dataUtil.DatabaseHelper;
+
+import java.util.ArrayList;
 
 /**
  * Created by yjl on 2017/3/16.
@@ -35,7 +38,7 @@ public class NoteDataUtil {
         //return dataUtil;
     }
 
-    public NoteDataUtil getNoteDataUtilInstance() {
+    public static NoteDataUtil getNoteDataUtilInstance() {
         return dataUtil;
     }
 
@@ -61,6 +64,87 @@ public class NoteDataUtil {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            if (db != null) db.close();
+        }
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param limitNum  查询的条数
+     * @param offsetNum 查询的偏移量
+     */
+    public ArrayList<NoteModel> selectNote(int limitNum, int offsetNum) {
+
+        SQLiteDatabase db = null;
+        Cursor cu = null;
+        ArrayList<NoteModel> modelList = null;
+        try {
+            db = this.helper.getWritableDatabase();
+            cu = db.rawQuery("select * from " + TABLE_NAME + " limit " + offsetNum * limitNum + " , " + limitNum, new String[]{});
+            //Log.e("yjl", "笔记的条数：" + cu.getCount());
+            int idNum = cu.getColumnIndexOrThrow("note_id");
+            int titleNum = cu.getColumnIndexOrThrow("note_title");
+            int lableNum = cu.getColumnIndexOrThrow("note_lable");
+            int contentNum = cu.getColumnIndexOrThrow("note_content");
+            int recordeNum = cu.getColumnIndexOrThrow("recorder_time");
+            modelList = new ArrayList<>();
+            while (cu.moveToNext()) {
+                NoteModel model = new NoteModel();
+                model.setNote_id(cu.getLong(idNum));
+                model.setNote_title(cu.getString(titleNum));
+                model.setNote_content(cu.getString(contentNum));
+                model.setNote_lable(cu.getString(lableNum));
+                model.setRecorder_time(cu.getLong(recordeNum));
+                modelList.add(model);
+                //Log.e("yjl", "查询笔记的标题：" + model.getNote_title());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cu != null) {
+                cu.close();
+            }
+            if (db != null) db.close();
+        }
+        return modelList;
+    }
+
+    /**
+     * 查询所有记录
+     */
+    public void selectAllNote() {
+
+        SQLiteDatabase db = null;
+        Cursor cu = null;
+        try {
+            db = this.helper.getWritableDatabase();
+            cu = db.rawQuery("select * from " + TABLE_NAME, new String[]{});
+            Log.e("yjl", "笔记的条数：" + cu.getCount());
+            int idNum = cu.getColumnIndexOrThrow("note_id");
+            int titleNum = cu.getColumnIndexOrThrow("note_title");
+            int lableNum = cu.getColumnIndexOrThrow("note_lable");
+            int contentNum = cu.getColumnIndexOrThrow("note_content");
+            int recordeNum = cu.getColumnIndexOrThrow("recorder_time");
+            ArrayList<NoteModel> modelList = new ArrayList<>();
+            while (cu.moveToNext()) {
+                NoteModel model = new NoteModel();
+                model.setNote_id(cu.getLong(idNum));
+                model.setNote_title(cu.getString(titleNum));
+                model.setNote_content(cu.getString(contentNum));
+                model.setNote_lable(cu.getString(lableNum));
+                model.setRecorder_time(cu.getLong(recordeNum));
+                modelList.add(model);
+                Log.e("yjl", "查询笔记的标题：" + model.getNote_title());
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cu != null) {
+                cu.close();
+            }
             if (db != null) db.close();
         }
     }

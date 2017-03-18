@@ -21,12 +21,14 @@
             android:textColor="#ffffff"
             android:textSize="16sp" />
 
-        <TextView
+        <Button
+            android:id="@+id/id_save_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:padding="5dp"
             android:text="保存" />
