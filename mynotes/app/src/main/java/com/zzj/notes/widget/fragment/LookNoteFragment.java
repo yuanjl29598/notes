@@ -102,12 +102,17 @@ public class LookNoteFragment extends BaseFragment {
             Log.e("yjl", "doInBackground");
             int num = integers[0];
             ArrayList<NoteModel> listNote = NoteDataUtil.getNoteDataUtilInstance().selectNote(20, num);
-            Log.e("yjl", "加载数据条数：" + listNote.size());
-            for (NoteModel notemodel : listNote) {
-                Log.e("yjl", "笔记标题：" + notemodel.getNote_title() + "====time:"
-                        + MyTimeUtils.formatDate(new Date(notemodel.getRecorder_time()), MyTimeUtils.FORMAT_LONG_CN) +
-                        "====lable:" + notemodel.getNote_lable());
+            if (listNote != null) {
+                Log.e("yjl", "num:" + num + "===加载数据条数：" + listNote.size());
+                for (NoteModel notemodel : listNote) {
+                    Log.e("yjl", "笔记标题：" + notemodel.getNote_title() + "====time:"
+                            + MyTimeUtils.formatDate(new Date(notemodel.getRecorder_time()), MyTimeUtils.FORMAT_LONG_CN) +
+                            "====lable:" + notemodel.getNote_lable());
+                }
+            } else {
+                Log.e("yjl", "num" + num + "====加载数据条数：" + 0);
             }
+
 //            try {
 //                Thread.sleep(1000);
 //            } catch (InterruptedException e) {
@@ -125,7 +130,6 @@ public class LookNoteFragment extends BaseFragment {
             if (moreNoteModels == null || moreNoteModels.size() == 0) {
                 Toast.makeText(getContext(), "就只有这么多笔记了", Toast.LENGTH_SHORT).show();
             } else {
-                noteNum++;
                 if (noteModelList == null) {
                     noteModelList = new ArrayList<>();
                 }
@@ -133,6 +137,7 @@ public class LookNoteFragment extends BaseFragment {
                     noteModelList.clear();
                 }
                 noteModelList.addAll(moreNoteModels);
+                noteNum++;
                 adapterRecy.setNoteList(noteModelList);
                 adapterRecy.notifyDataSetChanged();
             }

@@ -81,7 +81,14 @@ public class NoteDataUtil {
         ArrayList<NoteModel> modelList = null;
         try {
             db = this.helper.getWritableDatabase();
-            cu = db.rawQuery("select * from " + TABLE_NAME + " limit " + offsetNum * limitNum + " , " + limitNum, new String[]{});
+            //分页查找所有数据，根据创建时间
+            //cu = db.rawQuery("select * from " + TABLE_NAME + " limit " + offsetNum * limitNum + " , " + limitNum, new String[]{});
+
+            //分页查询，按最后修改时间查询  ASC 为升序，DESC 为降序
+            cu = db.rawQuery("select * from " + TABLE_NAME + " ORDER BY recorder_time DESC"
+                    + " limit " + offsetNum * limitNum + " , "
+                    + limitNum, new String[]{});
+
             //Log.e("yjl", "笔记的条数：" + cu.getCount());
             int idNum = cu.getColumnIndexOrThrow("note_id");
             int titleNum = cu.getColumnIndexOrThrow("note_title");
@@ -112,7 +119,7 @@ public class NoteDataUtil {
     }
 
     /**
-     * 查询所有记录
+     * 查询所有记录降序
      */
     public void selectAllNote() {
 
@@ -120,7 +127,7 @@ public class NoteDataUtil {
         Cursor cu = null;
         try {
             db = this.helper.getWritableDatabase();
-            cu = db.rawQuery("select * from " + TABLE_NAME, new String[]{});
+            cu = db.rawQuery("select * from " + TABLE_NAME + " ORDER BY recorder_time DESC", new String[]{});
             Log.e("yjl", "笔记的条数：" + cu.getCount());
             int idNum = cu.getColumnIndexOrThrow("note_id");
             int titleNum = cu.getColumnIndexOrThrow("note_title");
@@ -145,6 +152,31 @@ public class NoteDataUtil {
             if (cu != null) {
                 cu.close();
             }
+            if (db != null) db.close();
+        }
+    }
+
+    /**
+     * 更新本地数据库笔记
+     *
+     * @param noteModel //修改过的笔记
+     */
+    public void updateNote(NoteModel noteModel) {
+        if (noteModel == null) {
+            return;
+        }
+        SQLiteDatabase db = null;
+        try {
+            db = this.helper.getWritableDatabase();
+            ContentValues cv = new ContentValues();
+            cv.put("note_title", noteModel.getNote_title());
+            cv.put("note_content", noteModel.note_content);
+            cv.put("note_lable", noteModel.note_lable);
+            cv.put("recorder_time", noteModel.recorder_time);
+            db.update(TABLE_NAME, cv, "note_id=?", new String[]{"" + noteModel.getNote_id()});
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
             if (db != null) db.close();
         }
     }

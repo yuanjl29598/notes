@@ -17,7 +17,7 @@ public class MyTimeUtils {
     private static final String FORMAT_LONG = "yyyy-MM-dd HH:mm:ss";
     private static final String HH_MI_SS = "HH:mm:ss";
     private static final String YYYY_MM_DD_CN = "yyyy年MM月dd";
-    public static final String FORMAT_LONG_CN = "yyyy年MM月dd日 HH:mm";
+    public static final String FORMAT_LONG_CN = "yyyy/MM/dd HH:mm";
 
     private static final int[] DAYS_OF_MONTH = {31, 28, 31, 30, 31, 30, 31,
             31, 30, 31, 30, 31};

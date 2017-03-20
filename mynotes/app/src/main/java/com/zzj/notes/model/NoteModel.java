@@ -70,4 +70,18 @@ public class NoteModel implements Serializable {
     }
 
 
+    //重写equals方法，比较两个NoteModel对象是否一样
+    public boolean equals(NoteModel newNote) {
+        if (newNote == null) {
+            return false;
+        }
+        if ((newNote.getNote_id() != this.getNote_id())
+                || !newNote.getNote_title().equals(this.getNote_title())
+                || !newNote.getNote_lable().equals(this.getNote_lable())
+                || !newNote.getNote_content().equals(this.getNote_content())
+                || newNote.getRecorder_time() != this.getRecorder_time()) {
+            return false;
+        }
+        return true;
+    }
 }
