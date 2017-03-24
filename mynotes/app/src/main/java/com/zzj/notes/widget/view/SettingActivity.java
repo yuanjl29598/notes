@@ -51,6 +51,10 @@ public class SettingActivity extends NoteBaseActivity implements View.OnClickLis
         labelsList = getLabels();
         gridAdapter = new GridViewAdapter();
         addLabelView.setAdapter(gridAdapter);
+        int requestCode = getIntent().getIntExtra("addNote", 0);
+        if (requestCode == 10001) {
+            showAddLabelDialog();
+        }
     }
 
 
@@ -68,8 +72,8 @@ public class SettingActivity extends NoteBaseActivity implements View.OnClickLis
      *
      * @return
      */
-    public String readLabel() {
-        return PreferenceHelper.readString(this, "noteKey", "note_lable", "任务-计划-生活-工作-账号密码");
+    public static String readLabel() {
+        return PreferenceHelper.readString(NoteApplication.getNoteApplication(), "noteKey", "note_lable", "任务-计划-生活-工作-账号密码");
     }
 
     public String addLablesString(String label) {
@@ -83,7 +87,7 @@ public class SettingActivity extends NoteBaseActivity implements View.OnClickLis
         return labels;
     }
 
-    public List<String> getLabels() {
+    public static List<String> getLabels() {
         List<String> strList = new ArrayList<>();
         String str = readLabel();
         String[] labels = null;
@@ -98,10 +102,20 @@ public class SettingActivity extends NoteBaseActivity implements View.OnClickLis
         return strList;
     }
 
+    /**
+     * 新增标签
+     *
+     * @param label
+     */
+    public void addLabel(String label) {
+        saveLable(addLablesString(label));
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.id_back_note:
+                setResult(10002, getIntent());
                 finish();
                 break;
             default:
@@ -109,14 +123,14 @@ public class SettingActivity extends NoteBaseActivity implements View.OnClickLis
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        setResult(10002, getIntent());
+        super.onBackPressed();
+    }
 
     private class GridViewAdapter extends BaseAdapter {
 
-        //private String[] labelsName = null;
-//
-//        public GridViewAdapter(String[] labelsName) {
-//            this.labelsName = labelsName;
-//        }
 
         @Override
         public int getCount() {
@@ -207,7 +221,7 @@ public class SettingActivity extends NoteBaseActivity implements View.OnClickLis
         }
     }
 
-    private static class LableHolder {
+    private class LableHolder {
         public TextView text_label_name;
     }
 
@@ -237,7 +251,7 @@ public class SettingActivity extends NoteBaseActivity implements View.OnClickLis
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 if (!TextUtils.isEmpty(inputLabel)) {
-                    saveLable(addLablesString(inputLabel));
+                    addLabel(inputLabel);
                     Toast.makeText(SettingActivity.this, "添加标签成功~", Toast.LENGTH_SHORT).show();
                     labelsList = getLabels();
                     gridAdapter.notifyDataSetChanged();
