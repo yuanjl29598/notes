@@ -1,5 +1,6 @@
 package com.zzj.notes.widget.view;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,8 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.zzj.notes.R;
+import com.zzj.notes.utils.SystemUtils;
 import com.zzj.notes.widget.base.BaseFragment;
 import com.zzj.notes.widget.base.NoteBaseActivity;
 import com.zzj.notes.widget.fragment.FragmentAdapter;
@@ -92,17 +95,22 @@ public class LookNoteActivity extends NoteBaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_overaction, menu);
-
         return true;
     }
 
+    @TargetApi(21)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.menu_setting:
+                Toast.makeText(this, "点击设置", Toast.LENGTH_SHORT).show();
+                SystemUtils.jumpActivity(LookNoteActivity.this, SettingActivity.class);
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -112,6 +120,7 @@ public class LookNoteActivity extends NoteBaseActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
+//                        Toast.makeText(NoteApplication.getNoteApplication(), "点击设置", Toast.LENGTH_SHORT).show();
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
