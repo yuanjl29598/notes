@@ -34,4 +34,12 @@
         <item name="android:activityCloseEnterAnimation">@anim/activity_open</item>
         <item name="android:activityCloseExitAnimation">@anim/activity_close</item>
     </style>
+
+    <style name="NoteTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">#00000000</item>
+    </style>
+
+    <style name="NoteTheme.DialogTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:colorBackground">@color/colorAccent</item>
+    </style>
 </resources>
