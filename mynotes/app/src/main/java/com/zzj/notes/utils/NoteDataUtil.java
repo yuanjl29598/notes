@@ -196,4 +196,32 @@ public class NoteDataUtil {
         }
         return count;
     }
+
+    /**
+     * 根据id删除记事本
+     *
+     * @param noteId
+     */
+    public boolean deleteNote(long noteId) {
+        int num = 0;
+        if (noteId > 0) {
+            SQLiteDatabase dbw = null;
+            try {
+                dbw = this.helper.getReadableDatabase();
+                StringBuilder sb = new StringBuilder();
+                sb.append("note_id = ?");
+                // 删除记录？
+                num = dbw.delete(TABLE_NAME, sb.toString(), new String[]{"" + noteId});
+                Log.d("yjl", "删除成功！" + num);
+            } finally {
+                if (dbw != null) {
+                    dbw.close();
+                }
+            }
+        }
+        if (num > 0) {
+            return true;
+        }
+        return false;
+    }
 }

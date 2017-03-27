@@ -33,7 +33,7 @@ import java.util.List;
 public class WriteNoteActivity extends NoteBaseActivity implements View.OnClickListener {
     private Button saveNote;
     private EditText editText_input_title;
-    private EditText editText_input_lable;
+    //private EditText editText_input_lable;
     private EditText editText_input_content;
     private Button noteSave;
     private NoteModel noteModel;
@@ -70,7 +70,7 @@ public class WriteNoteActivity extends NoteBaseActivity implements View.OnClickL
         saveNote = (Button) findViewById(R.id.id_save_note);
         noteSave = (Button) findViewById(R.id.id_back_note);
         editText_input_title = (EditText) findViewById(R.id.editText_input_title);
-        editText_input_lable = (EditText) findViewById(R.id.editText_input_label);
+       // editText_input_lable = (EditText) findViewById(R.id.editText_input_label);
         editText_input_content = (EditText) findViewById(R.id.editText_input_content);
         textviewLabel = (TextView) findViewById(R.id.textview_label);
         textviewLabel.setOnClickListener(this);
@@ -79,7 +79,7 @@ public class WriteNoteActivity extends NoteBaseActivity implements View.OnClickL
         noteSave.setOnClickListener(this);
         if (noteModel != null) {
             editText_input_title.setText(noteModel.getNote_title());
-            editText_input_lable.setText(noteModel.getNote_lable());
+            textviewLabel.setText(noteModel.getNote_lable());
             editText_input_content.setText(noteModel.getNote_content());
         }
     }
@@ -119,8 +119,8 @@ public class WriteNoteActivity extends NoteBaseActivity implements View.OnClickL
                 Toast.makeText(this, "请输入标题！", Toast.LENGTH_SHORT).show();
                 return;
             }
-            if (!TextUtils.isEmpty(editText_input_lable.getText().toString())) {
-                newNoteModel.setNote_lable(editText_input_lable.getText().toString());
+            if (!TextUtils.isEmpty(textviewLabel.getText().toString())) {
+                newNoteModel.setNote_lable(textviewLabel.getText().toString());
             }
             if (!TextUtils.isEmpty(editText_input_content.getText().toString())) {
                 newNoteModel.setNote_content(editText_input_content.getText().toString());
@@ -153,8 +153,8 @@ public class WriteNoteActivity extends NoteBaseActivity implements View.OnClickL
             Toast.makeText(this, "请输入标题！", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!TextUtils.isEmpty(editText_input_lable.getText().toString())) {
-            newNoteModel.setNote_lable(editText_input_lable.getText().toString());
+        if (!TextUtils.isEmpty(textviewLabel.getText().toString())) {
+            newNoteModel.setNote_lable(textviewLabel.getText().toString());
         }
         if (!TextUtils.isEmpty(editText_input_content.getText().toString())) {
             newNoteModel.setNote_content(editText_input_content.getText().toString());

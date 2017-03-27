@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,10 +15,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zzj.notes.R;
 import com.zzj.notes.model.NoteModel;
 import com.zzj.notes.utils.MyTimeUtils;
+import com.zzj.notes.utils.NoteDataUtil;
 import com.zzj.notes.widget.view.WriteNoteActivity;
 
 import java.util.ArrayList;
@@ -47,7 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
-    public void onBindViewHolder(final RecyclerViewAdapter.NoteViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerViewAdapter.NoteViewHolder holder, final int position) {
         final View view = holder.mView;
         if (noteList != null && noteList.size() > position) {
             final NoteModel noteModel = noteList.get(position);
@@ -76,6 +80,32 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         }
                     });
                     animator.start();
+                }
+            });
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    AlertDialog.Builder deleDialog = new AlertDialog.Builder(mContext);
+                    deleDialog.setTitle("确定删除笔记" + noteModel.getNote_title() + " 吗？");
+                    deleDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(mContext, "取消删除~", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    deleDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            if (NoteDataUtil.getNoteDataUtilInstance().deleteNote(noteModel.getNote_id())) {
+                                noteList.remove(position);
+                                Toast.makeText(mContext,
+                                        "删除标签 " + noteModel.getNote_title() + " 成功!", Toast.LENGTH_SHORT).show();
+                                notifyDataSetChanged();
+                            }
+                        }
+                    });
+                    deleDialog.show();
+                    return false;
                 }
             });
         }

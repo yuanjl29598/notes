@@ -42,16 +42,16 @@
             android:textColor="#ff000000"
             android:textSize="14sp" />
 
-        <EditText
-            android:id="@+id/editText_input_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@null"
-            android:hint="添加标签"
-            android:maxLines="1"
-            android:textColor="#99000000"
-            android:textColorHint="#33eeeddd" />
+        <!--<EditText-->
+            <!--android:id="@+id/editText_input_label"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:background="@null"-->
+            <!--android:hint="添加标签"-->
+            <!--android:maxLines="1"-->
+            <!--android:textColor="#99000000"-->
+            <!--android:textColorHint="#33eeeddd" />-->
 
         <TextView
             android:id="@+id/textview_label"

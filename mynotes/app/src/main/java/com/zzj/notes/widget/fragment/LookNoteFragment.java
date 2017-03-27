@@ -68,7 +68,13 @@ public class LookNoteFragment extends BaseFragment {
                 }
             }
         });
-
+//        mRecyclerView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View view) {
+//
+//                return false;
+//            }
+//        });
 
     }
 
