@@ -105,7 +105,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                         }
                     });
                     deleDialog.show();
-                    return false;
+                    return true;
                 }
             });
         }

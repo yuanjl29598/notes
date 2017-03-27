@@ -41,6 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@drawable/ic_add_note" />
+        app:borderWidth="3dp"
+        android:src="@drawable/selector_add_note"
+        app:backgroundTint="#ffdddddd" />
 
 </android.support.design.widget.CoordinatorLayout>
