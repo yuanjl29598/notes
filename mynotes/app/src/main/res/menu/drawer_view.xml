@@ -6,30 +6,26 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_dashboard"
-            android:title="CC Talk"/>
+            android:title="@string/str_change_password" />
         <item
             android:id="@+id/nav_messages"
             android:icon="@drawable/ic_event"
-            android:title="HJ Class"/>
+            android:title="@string/str_add_note" />
         <item
             android:id="@+id/nav_friends"
             android:icon="@drawable/ic_headset"
-            android:title="Words"/>
+            android:title="@string/str_add_lables" />
         <item
             android:id="@+id/nav_discussion"
             android:icon="@drawable/ic_forum"
-            android:title="Big HJ"/>
+            android:title="@string/str_quit" />
     </group>
 
-    <item android:title="Version">
-        <menu>
-            <item
-                android:icon="@drawable/ic_dashboard"
-                android:title="Android"/>
-            <item
-                android:icon="@drawable/ic_dashboard"
-                android:title="iOS"/>
-        </menu>
-    </item>
-
+    <group android:id="@+id/text_1">
+        <item
+            android:actionLayout="@layout/item_label"
+            android:icon="@drawable/ic_dashboard"
+            android:onClick="@null"
+            android:title="@string/str_version_info" />
+    </group>
 </menu>

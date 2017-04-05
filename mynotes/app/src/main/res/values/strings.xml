@@ -12,4 +12,10 @@
     <string name="string_write_note_content">写入你的故事内容</string>
     <string name="string_save_note">保存</string>
     <string name="title_activity_setting">SettingActivity</string>
+    <string name="str_version">版本信息</string>
+    <string name="str_version_info">版本信息:我的记事本v1.0</string>
+    <string name="str_change_password">修改密码</string>
+    <string name="str_add_note">添加笔记</string>
+    <string name="str_add_lables">标签管理</string>
+    <string name="str_quit">退出应用</string>
 </resources>

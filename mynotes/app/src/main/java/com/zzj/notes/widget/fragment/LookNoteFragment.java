@@ -1,13 +1,17 @@
 package com.zzj.notes.widget.fragment;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.zzj.notes.R;
@@ -30,6 +34,8 @@ public class LookNoteFragment extends BaseFragment {
     private LoadNoteAsyktask loadnoteAsyktask;
     private RecyclerViewAdapter adapterRecy;
     private int noteNum = 0; //获取笔记的页数，一页最多20条
+    private SearchView searchView;
+
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -68,13 +74,57 @@ public class LookNoteFragment extends BaseFragment {
                 }
             }
         });
-//        mRecyclerView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View view) {
-//
-//                return false;
-//            }
-//        });
+        searchView = (android.support.v7.widget.SearchView) findViewById(R.id.id_note_search);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.e("yjl", "------onQueryTextSubmit");
+                if (searchView != null) {
+                    // 得到输入管理对象
+                    InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        // 这将让键盘在所有的情况下都被隐藏，但是一般我们在点击搜索按钮后，输入法都会乖乖的自动隐藏的。
+                        imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0); // 输入法如果是显示状态，那么就隐藏输入法
+                    }
+                    searchView.clearFocus(); // 不获取焦点
+                }
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                doSearch(newText);
+                return false;
+            }
+        });
+        //是否显示提交按钮
+        searchView.setSubmitButtonEnabled(true);
+    }
+
+    private void doSearch(String searchStr) {
+        if (TextUtils.isEmpty(searchStr)
+                || noteModelList == null
+                || noteModelList.size() == 0) {
+            adapterRecy.setNoteList(noteModelList);
+            adapterRecy.notifyDataSetChanged();
+            return;
+        }
+        ArrayList<NoteModel> listModel = new ArrayList<>();
+        for (NoteModel model : noteModelList) {
+            if (model.getNote_title().contains(searchStr)
+                    || model.getNote_lable().contains(searchStr)
+                    || model.getNote_content().contains(searchStr)) {
+                listModel.add(model);
+            }
+        }
+        if (listModel.size() > 0) {
+            adapterRecy.setNoteList(listModel);
+            adapterRecy.notifyDataSetChanged();
+        } else {
+            adapterRecy.setNoteList(noteModelList);
+            adapterRecy.notifyDataSetChanged();
+        }
 
     }
 
