@@ -117,6 +117,7 @@ public class MainActivity extends NoteBaseActivity implements View.OnClickListen
             if (pass.equals(userPassStr)) {
                 Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
                 SystemUtils.jumpActivity(this, LookNoteActivity.class);
+                finish();
             } else {
                 valiaUserPass.setError("密码错误");
                 inputPassLayout.setEnabled(true);

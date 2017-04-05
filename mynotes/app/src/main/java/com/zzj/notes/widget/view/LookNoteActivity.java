@@ -2,6 +2,7 @@ package com.zzj.notes.widget.view;
 
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -12,19 +13,28 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TextInputEditText;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.zzj.notes.R;
 import com.zzj.notes.utils.FileUtils;
+import com.zzj.notes.utils.PreferenceHelper;
 import com.zzj.notes.utils.SystemUtils;
 import com.zzj.notes.widget.base.BaseFragment;
 import com.zzj.notes.widget.base.NoteBaseActivity;
@@ -56,7 +66,7 @@ public class LookNoteActivity extends NoteBaseActivity {
     private Bitmap bitmap;
     private String tempFilePath = "";
     private long time;
-
+    private Dialog mChangeDialog;
 
     @Override
     public int getLayoutId() {
@@ -143,7 +153,26 @@ public class LookNoteActivity extends NoteBaseActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
-//                        Toast.makeText(NoteApplication.getNoteApplication(), "点击设置", Toast.LENGTH_SHORT).show();
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_discussion:
+                                quitAppDialog();
+                                break;
+                            case R.id.nav_friends:
+                                //标签
+                                SystemUtils.jumpActivity(LookNoteActivity.this, SettingActivity.class);
+                                break;
+                            case R.id.nav_messages:
+                                Intent intent = new Intent();
+                                intent.setClass(LookNoteActivity.this, WriteNoteActivity.class);
+                                startActivity(intent);
+                                //添加笔记
+                                break;
+                            case R.id.nav_home:
+                                changeUserPass();
+                                //修改密码
+                                break;
+
+                        }
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
@@ -263,5 +292,92 @@ public class LookNoteActivity extends NoteBaseActivity {
 
     }
 
+    //询问是否关闭应用
+    private void quitAppDialog() {
+        final AlertDialog.Builder inputDialog =
+                new AlertDialog.Builder(this);
+        inputDialog.setTitle("是否退出记事本？");
+        inputDialog.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                //关闭当前应用
+                System.exit(0);
+
+            }
+        });
+        inputDialog.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        inputDialog.setCancelable(false);
+        inputDialog.show();
+    }
+
+    private void changeUserPass() {
+
+        if (mChangeDialog == null) {
+            mChangeDialog = new Dialog(this, R.style.choiceLabelDialog);
+            LinearLayout rootDialog = (LinearLayout) LayoutInflater.from(this).inflate(
+                    R.layout.layout_change_pass, null);
+            Window dialogWindow = mChangeDialog.getWindow();
+            dialogWindow.setGravity(Gravity.BOTTOM);
+            dialogWindow.setWindowAnimations(R.style.noteDialogDStyle); // 添加动画
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes(); // 获取对话框当前的参数值
+            lp.height = (int) (getWindowManager().getDefaultDisplay().getHeight() * 0.8);
+            lp.width = getWindowManager().getDefaultDisplay().getWidth();
+            lp.alpha = 9f; // 透明度
+            dialogWindow.setAttributes(lp);
+            mChangeDialog.setContentView(rootDialog);
+            final TextInputEditText userPass = (TextInputEditText) rootDialog.findViewById(R.id.user_password);
+            final TextInputEditText userNewPass = (TextInputEditText) rootDialog.findViewById(R.id.input_new_password);
+            final TextInputEditText valiaNewPass = (TextInputEditText) rootDialog.findViewById(R.id.input_valia_password);
+            Button changeButton = (Button) rootDialog.findViewById(R.id.change_pass);
+            changeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String strPass = userPass.getText().toString();
+                    if (TextUtils.isEmpty(strPass)) {
+                        userPass.setError("请先验证密码");
+                    } else {
+                        String pass = readPass();
+                        if (!pass.equals(strPass)) {
+                            userPass.setError("密码不正确");
+                            return;
+                        }
+                        String newPass = userNewPass.getText().toString();
+                        if (TextUtils.isEmpty(newPass)) {
+                            userNewPass.setError("请输入新密码");
+                        }
+                        String newValiaPass = valiaNewPass.getText().toString();
+                        if (TextUtils.isEmpty(newValiaPass)) {
+                            valiaNewPass.setError("请验证新密码");
+                        } else if (!newValiaPass.equals(newPass)) {
+                            valiaNewPass.setError("新密码不一致");
+                        } else if (newValiaPass.equals(newPass)) {
+                            savePass(newPass);
+                            Toast.makeText(LookNoteActivity.this, "修改成功", Toast.LENGTH_SHORT).show();
+                            mChangeDialog.dismiss();
+                        }
+
+                    }
+                }
+            });
+
+        }
+        mChangeDialog.show();
+
+    }
+
+    private void savePass(String pass) {
+        if (!TextUtils.isEmpty(pass)) {
+            PreferenceHelper.write(this, "note_data", "note_pass", pass);
+        }
+    }
+
+    private String readPass() {
+        return PreferenceHelper.readString(this, "note_data", "note_pass");
+    }
 
 }
