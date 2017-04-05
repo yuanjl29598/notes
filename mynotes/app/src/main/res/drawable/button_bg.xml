@@ -4,19 +4,19 @@
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
 
-            <solid android:color="#38ff0e"/>
-            <corners android:radius="10dip"/>
+            <solid android:color="#73b9a2" />
+            <corners android:radius="10dip" />
 
-            <padding android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp"/>
+            <padding android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp" />
         </shape>
     </item>
     <item>
         <shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
 
-            <solid android:color="#0fb73d"/>
-            <corners android:radius="10dip"/>
+            <solid android:color="#65c294" />
+            <corners android:radius="10dip" />
 
-            <padding android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp"/>
+            <padding android:bottom="1dp" android:left="1dp" android:right="1dp" android:top="1dp" />
         </shape>
     </item>
 

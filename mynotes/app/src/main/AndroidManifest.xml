@@ -25,22 +25,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/NoteTheme">
-        <activity android:name=".MainActivity" />
-        <activity android:name=".widget.view.LookNoteActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".AddContent"
-            android:hardwareAccelerated="false"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".SelectAct"
-            android:hardwareAccelerated="false"
-            android:screenOrientation="portrait" />
+        <activity android:name=".widget.view.LookNoteActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
         <activity
             android:name=".widget.view.WriteNoteActivity"
             android:theme="@style/activity_stylePrize" />
