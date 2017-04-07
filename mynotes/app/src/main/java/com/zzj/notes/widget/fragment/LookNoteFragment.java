@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -58,10 +58,9 @@ public class LookNoteFragment extends BaseFragment {
             }
         });
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-
-        mRecyclerView.setOnScrollChangeListener(new RecyclerView.OnScrollChangeListener() {
+        mRecyclerView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
-            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+            public void onScrollChanged() {
                 LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
 
                 int totalItemCount = layoutManager.getItemCount();
@@ -74,6 +73,21 @@ public class LookNoteFragment extends BaseFragment {
                 }
             }
         });
+//        mRecyclerView.setOnScrollChangeListener(new RecyclerView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(View view, int i, int i1, int i2, int i3) {
+//                LinearLayoutManager layoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
+//
+//                int totalItemCount = layoutManager.getItemCount();
+//
+//                int lastVisibleItem = layoutManager.findLastVisibleItemPosition();
+//                int VISIBLE_THRESHOLD = 2;//还剩多少个的时候进行加载
+//                if (!loading && totalItemCount < (lastVisibleItem + VISIBLE_THRESHOLD)) {
+//                    Log.e("yjl", "onScrollChange");
+//                    loadData(noteNum);
+//                }
+//            }
+//        });
         searchView = (android.support.v7.widget.SearchView) findViewById(R.id.id_note_search);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
