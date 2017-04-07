@@ -1,8 +1,20 @@
-*.iml
+/.classpath
+/.settings
+/bin
+/gen
+*.apk
+*.ap_
+*.dex
+*.class
+.gradle/
+build/
+*.log
+proguard/
+*.properties
 .gradle
 /local.properties
-/.idea/workspace.xml
-/.idea/libraries
-.DS_Store
+.DS_Store # only needed under mac os
 /build
 /captures
+*.iml
+.idea

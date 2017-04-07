@@ -47,7 +47,7 @@ public class LookNoteFragment extends BaseFragment {
         adapterRecy = new RecyclerViewAdapter(getActivity());
         mRecyclerView.setAdapter(adapterRecy);
         refreshLayout = (SwipeRefreshLayout) findViewById(R.id.refresh_layout_note);
-        refreshLayout.setColorSchemeColors(getContext().getColor(R.color.colorAccent));
+        refreshLayout.setColorSchemeColors(getContext().getResources().getColor(R.color.colorAccent));
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
