@@ -19,6 +19,15 @@ android {
             multiDexEnabled true
 
         }
+        signingConfigs {
+            //签名文件
+            release {
+                storeFile file('./note.jks')
+                keyAlias 'zzj.note'
+                keyPassword 'zzj.note'
+                storePassword 'zzj.note'
+            }
+        }
         buildTypes {
             release {
                 minifyEnabled false
